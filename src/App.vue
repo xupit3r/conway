@@ -2,6 +2,7 @@
 import { ref } from "vue"; 
 import { conway } from "@/lib/conway.js";
 import { initState } from "@/lib/utils";
+import { base } from "@/lib/rules";
 import useCanvas from "@/lib/canvas.js";
 
 const TIME_BETWEEN_DRAWS = 300;
@@ -17,9 +18,9 @@ const drawAutomata = (automata) => {
     const state = initState(HEIGHT, WIDTH);
 
     const interval = setInterval(() => {
-      generation.value = generation.value + 1;
+      generation.value++;
       clearCanvas();
-      automata(ctx, state);
+      automata(ctx, state, base);
     }, TIME_BETWEEN_DRAWS);
 
     return interval;
