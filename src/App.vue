@@ -5,7 +5,7 @@ import { initState } from "@/lib/utils";
 import { base } from "@/lib/rules";
 import useCanvas from "@/lib/canvas.js";
 
-const TIME_BETWEEN_DRAWS = 300;
+const TIME_BETWEEN_DRAWS = 100;
 const generation = ref(0);
 
 const drawAutomata = (automata) => {
@@ -35,4 +35,12 @@ window.addEventListener("load", drawAutomata(conway));
   <canvas id="canvas" height="600" width="800"></canvas>
 </template>
 
-<style scoped></style>
+<style scoped>
+#canvas {
+  background-color: rgb(100, 100, 100);
+  position: relative !important;
+  border: lightgrey 1px solid;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+</style>

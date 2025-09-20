@@ -1,8 +1,11 @@
 import { copyState, color } from "@/lib/utils";
 
 // global state of the canvas
-const DEAD = color(255, 255, 255);
-const LIVE = color(100, 100, 100);
+const DEAD = color(100, 100, 100);
+const LIVE = color(255, 0, 255);
+const LIMBO = color(100, 150, 100);
+const ANGEL = color(100, 255, 100);
+const DIAMETER = 10;
 const DIRECTIONS = [
   [0, 1],
   [1, 0],
@@ -14,7 +17,19 @@ const DIRECTIONS = [
   [-1, 1]
 ];
 
-const findNextGen = (rules, state, i, j) => {
+const getFillStyle = (me, live) => {
+  if (me && live <= 3) {
+    return LIVE;
+  } else if (live > 3 && live <= 5) {
+    return LIMBO;
+  } else if (live > 5) {
+    return ANGEL;
+  }  else {
+    return DEAD;
+  }
+}
+
+const countLive = (state, i, j) => {
   let live = 0;
   const m = state.length;
   const n = state[0].length;
@@ -29,7 +44,7 @@ const findNextGen = (rules, state, i, j) => {
     }
   }
 
-  return rules(state[i][j], live);
+  return live;
 }
 
 export const conway = (ctx, state, rules) => {
@@ -41,11 +56,18 @@ export const conway = (ctx, state, rules) => {
         nextGen[i] = [];
       }
 
-      nextGen[i][j] = findNextGen(rules, state, i, j);
+      const live = countLive(state, i, j);
+      nextGen[i][j] = rules(state[i][j], live);
 
       ctx.beginPath();
-      ctx.fillStyle = nextGen[i][j] ? LIVE : DEAD;
-      ctx.arc(i * 10 + 5, j * 10 + 5, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = getFillStyle(nextGen[i][j], live);
+      ctx.arc(
+        i * DIAMETER + 5, 
+        j * DIAMETER + 5, 
+        DIAMETER / 2, 
+        0,
+        2 * Math.PI
+      );
       ctx.fill();
     }
   }
