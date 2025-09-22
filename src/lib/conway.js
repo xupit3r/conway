@@ -2,9 +2,9 @@ import { copyState, color } from "@/lib/utils";
 
 // global state of the canvas
 const DEAD = color(100, 100, 100);
-const LIVE = color(255, 0, 255);
-const LIMBO = color(100, 150, 100);
-const ANGEL = color(100, 255, 100);
+const LIVE = color(50, 255,50);
+const LIMBO = color(50, 200, 50);
+const ANGEL = color(50, 100, 50);
 const DIAMETER = 10;
 const DIRECTIONS = [
   [0, 1],
