@@ -35,6 +35,7 @@ const drawer = drawAutomata(
 const startOver = (ev) => {
   const canvas = useCanvas("canvas");
   clearInterval(interval.value);
+  generation.value = 0;
   interval.value = drawer(
     generation,
     timeBetween,
