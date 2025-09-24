@@ -38,3 +38,20 @@ export const color = (n1, n2, n3) => {
     ${Math.floor(n3)}
   )`;
 }
+
+export const drawAutomata = (automata) => {
+  return (generation, timeBetween, canvas, rules) => {
+    const state = initState(
+      canvas.HEIGHT,
+      canvas.WIDTH
+    );
+
+    const interval = setInterval(() => {
+      generation.value++;
+      canvas.clearCanvas();
+      automata(canvas.ctx, state, rules);
+    }, timeBetween);
+
+    return interval;
+  }
+}

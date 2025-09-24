@@ -1,34 +1,28 @@
 <script setup>
 import { ref } from "vue"; 
 import { conway } from "@/lib/conway.js";
-import { initState } from "@/lib/utils";
+import { drawAutomata } from "@/lib/utils";
 import { base } from "@/lib/rules";
 import useCanvas from "@/lib/canvas.js";
 import Counter from "@/components/Counter.vue";
 
-const TIME_BETWEEN_DRAWS = 100;
+const timeBetween = ref(100);
 const generation = ref(0);
+const interval = ref(null);
+const drawer = drawAutomata(
+  conway
+);
 
-const drawAutomata = (automata) => {
-  return () => {
-    const { 
-      clearCanvas,
-      ctx,
-      HEIGHT,
-      WIDTH } = useCanvas("canvas");
-    const state = initState(HEIGHT, WIDTH);
 
-    const interval = setInterval(() => {
-      generation.value++;
-      clearCanvas();
-      automata(ctx, state, base);
-    }, TIME_BETWEEN_DRAWS);
-
-    return interval;
-  }
-}
-
-window.addEventListener("load", drawAutomata(conway));
+window.addEventListener("load", () => {
+  const canvas = useCanvas("canvas");
+  interval.value = drawer(
+    generation,
+    timeBetween,
+    canvas,
+    base
+  );
+});
 </script>
 
 <template>
