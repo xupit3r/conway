@@ -17,3 +17,15 @@ export const base = (me, live) => {
     return me;
   }
 }
+
+export const noOver = (me, live) => {
+  if (me === 1 && live < 2) {
+    return 0;
+  } else if (me === 1) {
+    return 1;
+  } else if (me === 0 && live === 3) {
+    return 1;
+  } else {
+    return me;
+  }
+}
