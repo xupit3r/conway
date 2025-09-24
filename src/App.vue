@@ -15,6 +15,12 @@ const { stored, put } = useInputStore();
 const generation = ref(0);
 const interval = ref(null);
 
+const automata = [{
+  name: "Conway's Game of Life",
+  value: 0,
+  func: conway
+}];
+
 const rules = [{
   name: "Default Conway Rules",
   value: 0,
@@ -25,18 +31,17 @@ const rules = [{
   func: noOver
 }];
 
+put('automata', 0);
 put('rule', 0);
 put('timeBetween', 100);
 
-const drawer = drawAutomata(
-  conway
-);
-
-const startOver = (ev) => {
+const start = () => {
   const canvas = useCanvas("canvas");
   clearInterval(interval.value);
   generation.value = 0;
-  interval.value = drawer(
+  interval.value = drawAutomata(
+    automata[stored.inputs.automata].func
+  )(
     generation,
     stored.inputs.timeBetween,
     canvas,
@@ -44,15 +49,7 @@ const startOver = (ev) => {
   )
 }
 
-window.addEventListener("load", () => {
-  const canvas = useCanvas("canvas");
-  interval.value = drawer(
-    generation,
-    stored.inputs.timeBetween,
-    canvas,
-    rules[stored.inputs.rule].func
-  );
-});
+window.addEventListener("load", start);
 </script>
 
 <template>
@@ -63,10 +60,13 @@ window.addEventListener("load", () => {
 
     <InputLayout :horizontal="true">
       <Counter :count="generation">generation</Counter>
-      <Input @change="startOver" type="text" name="timeBetween">
+      <Input @change="start" type="text" name="timeBetween">
         <template v-slot:label>interval</template>
       </Input>
-      <Input @change="startOver" type="select" name="rule" :options="rules">
+      <Input @change="start" type="select" name="rule" :options="automata">
+        <template v-slot:label>automata</template>
+      </Input>
+      <Input @change="start" type="select" name="rule" :options="rules">
         <template v-slot:label>rule</template>
       </Input>
     </InputLayout>
