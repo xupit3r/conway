@@ -12,7 +12,6 @@ import InputLayout from "./components/InputLayout.vue";
 
 const { stored, put } = useInputStore();
 
-const timeBetween = ref(100);
 const generation = ref(0);
 const interval = ref(null);
 
@@ -27,6 +26,7 @@ const rules = [{
 }];
 
 put('rule', 0);
+put('timeBetween', 100);
 
 const drawer = drawAutomata(
   conway
@@ -38,7 +38,7 @@ const startOver = (ev) => {
   generation.value = 0;
   interval.value = drawer(
     generation,
-    timeBetween,
+    stored.inputs.timeBetween,
     canvas,
     rules[stored.inputs.rule].func
   )
@@ -48,7 +48,7 @@ window.addEventListener("load", () => {
   const canvas = useCanvas("canvas");
   interval.value = drawer(
     generation,
-    timeBetween,
+    stored.inputs.timeBetween,
     canvas,
     rules[stored.inputs.rule].func
   );
@@ -63,6 +63,9 @@ window.addEventListener("load", () => {
 
     <InputLayout :horizontal="true">
       <Counter :count="generation">generation</Counter>
+      <Input @change="startOver" type="text" name="timeBetween">
+        <template v-slot:label>interval</template>
+      </Input>
       <Input @change="startOver" type="select" name="rule" :options="rules">
         <template v-slot:label>rule</template>
       </Input>
