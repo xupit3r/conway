@@ -4,6 +4,7 @@ import { conway } from "@/lib/conway.js";
 import { initState } from "@/lib/utils";
 import { base } from "@/lib/rules";
 import useCanvas from "@/lib/canvas.js";
+import Counter from "@/components/Counter.vue";
 
 const TIME_BETWEEN_DRAWS = 100;
 const generation = ref(0);
@@ -31,8 +32,8 @@ window.addEventListener("load", drawAutomata(conway));
 </script>
 
 <template>
-  <div>generation <strong>{{ generation }}</strong></div>
-  <canvas id="canvas" height="600" width="800"></canvas>
+  <Counter :count="generation">generation</Counter>
+  <canvas id="canvas" height="600" width="1000"></canvas>
 </template>
 
 <style scoped>

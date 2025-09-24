@@ -62,8 +62,8 @@ export const conway = (ctx, state, rules) => {
       ctx.beginPath();
       ctx.fillStyle = getFillStyle(nextGen[i][j], live);
       ctx.arc(
-        i * DIAMETER + 5, 
-        j * DIAMETER + 5, 
+        i * DIAMETER + DIAMETER / 2, 
+        j * DIAMETER + DIAMETER / 2, 
         DIAMETER / 2, 
         0,
         2 * Math.PI
