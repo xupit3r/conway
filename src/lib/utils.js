@@ -49,11 +49,7 @@ export const drawAutomata = (automata) => {
     const interval = setInterval(() => {
       generation.value++;
       canvas.clearCanvas();
-      const allDone = automata(canvas.ctx, state, rules);
-
-      if (allDone) {
-        clearInterval(interval);
-      }
+      automata(canvas.ctx, generation.value, state, rules);
     }, timeBetween);
 
     return interval;

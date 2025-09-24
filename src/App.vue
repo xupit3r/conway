@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { conway } from "@/lib/conway.js";
+import { wheat } from "@/lib/automata";
 import { drawAutomata } from "@/lib/utils";
 import { base, noOver } from "@/lib/rules";
 import useCanvas from "@/lib/canvas.js";
@@ -19,6 +20,10 @@ const automata = [{
   name: "Conway's Game of Life",
   value: 0,
   func: conway
+}, {
+  name: "Wheat",
+  value: 1,
+  func: wheat
 }];
 
 const rules = [{
@@ -63,7 +68,7 @@ window.addEventListener("load", start);
       <Input @change="start" type="text" name="timeBetween">
         <template v-slot:label>interval</template>
       </Input>
-      <Input @change="start" type="select" name="rule" :options="automata">
+      <Input @change="start" type="select" name="automata" :options="automata">
         <template v-slot:label>automata</template>
       </Input>
       <Input @change="start" type="select" name="rule" :options="rules">
