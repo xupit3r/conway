@@ -39,19 +39,10 @@ export const color = (n1, n2, n3) => {
   )`;
 }
 
-export const drawAutomata = (automata) => {
-  return (generation, timeBetween, canvas, rules) => {
-    const state = initState(
-      canvas.HEIGHT,
-      canvas.WIDTH
-    );
-
-    const interval = setInterval(() => {
-      generation.value++;
-      canvas.clearCanvas();
-      automata(canvas.ctx, generation.value, state, rules);
-    }, timeBetween);
-
-    return interval;
-  }
+export const drawAutomata = (automata, state, generation, timeBetween, canvas, rules) => {
+  return setInterval(() => {
+    generation.value++;
+    canvas.clearCanvas();
+    automata(canvas.ctx, generation.value, state, rules);
+  }, timeBetween);
 }
