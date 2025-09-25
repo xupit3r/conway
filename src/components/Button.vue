@@ -2,7 +2,7 @@
 const props = defineProps({
   id: {
     type: String,
-    default: Math.floor(Math.random() * 10000)
+    default: `${Math.floor(Math.random() * 10000)}`
   }
 });
 </script>

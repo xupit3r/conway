@@ -6,22 +6,13 @@ export default function useCanvas (name) {
   const HEIGHT = canvas.height;
   const WIDTH = canvas.width;
 
-  const mouseX = ref(0);
-  const mouseY = ref(0);
-
   const clearCanvas = () => ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  canvas.addEventListener("mouseover", ({ clientX, clientY }) => {
-    mouseX.value = clientX;
-    mouseY.value = clientY;
-  });
 
   return {
     ctx,
+    canvas,
     HEIGHT,
     WIDTH,
-    clearCanvas,
-    mouseX,
-    mouseY
+    clearCanvas
   }
 }
