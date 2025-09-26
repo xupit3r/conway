@@ -5,7 +5,8 @@ const DEAD = color(100, 100, 100);
 const LIVE = color(50, 255,50);
 const LIMBO = color(50, 200, 50);
 const ANGEL = color(50, 100, 50);
-const DIAMETER = 10;
+
+// moore neightborhood directions
 const DIRECTIONS = [
   [0, 1],
   [1, 0],
@@ -63,22 +64,4 @@ export const conway = (draw, generation, state, rules) => {
   }
 
   copyState(state, nextGen);
-}
-
-export const wheat = (ctx, generation, state, rules) => {
-  console.log(`generation ${generation}`);
-  for (let i = 0; i < 10; i++) {
-    ctx.moveTo(0, 0);
-    ctx.beginPath();
-    ctx.strokeStyle = color(255, 255, i * 25);
-    ctx.bezierCurveTo(
-      bound(generation, i * 5, 50),
-      bound(generation, i * 10, 100),
-      bound(generation, 0, 200),
-      bound(generation, 0, 300),
-      400,
-      400
-    );
-    ctx.stroke();
-  }
 }
