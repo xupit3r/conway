@@ -1,14 +1,12 @@
 # conway
 
-This template should help get you started developing with Vue 3 in Vite.
+this library is intended to be used as a sandbox to experiment with different algorithms for Conway's Game of Life.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+- configurable grid size
+- configurable starting pattern
+- ability to pause and update
 
 ## Project Setup
 
