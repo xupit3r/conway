@@ -1,11 +1,10 @@
 <script setup>
 import { ref } from "vue";
-import { conway } from "@/lib/conway.js";
-import { wheat } from "@/lib/automata";
+import { conway } from "@/lib/automata";
 import { drawAutomata, initState } from "@/lib/utils";
 import { base, noOver } from "@/lib/rules";
-import useCanvas from "@/lib/canvas.js";
 import { useInputStore } from "@/stores/input.js";
+import useCanvas from "@/lib/canvas.js";
 import Input from "@/components/Input.vue";
 import Counter from "@/components/Counter.vue";
 import BaseLayout from "@/components/BaseLayout.vue";
@@ -17,7 +16,7 @@ const { stored, put } = useInputStore();
 
 const generation = ref(0);
 const interval = ref(null);
-const paused = ref(false);
+const playing = ref(false);
 
 let state = [];
 
@@ -25,10 +24,6 @@ const automata = [{
   name: "Conway's Game of Life",
   value: 0,
   func: conway
-}, {
-  name: "Wheat",
-  value: 1,
-  func: wheat
 }];
 
 const rules = [{
@@ -58,6 +53,7 @@ const draw = (state) => {
 
 const start = () => {
   clearInterval(interval.value);
+  playing.value = true;
   state = initState(
     canvas.HEIGHT.value,
     canvas.WIDTH.value,
@@ -68,13 +64,17 @@ const start = () => {
 }
 
 const pause = () => {
-  paused.value = true;
+  playing.value = false;
   clearInterval(interval.value);
 }
 
 const resume = () => {
-  paused.value = false;
+  playing.value = true;
   draw(state);
+}
+
+const click = () => {
+  state[canvas.grid.x][canvas.grid.y] = 1
 }
 
 </script>
@@ -97,14 +97,16 @@ const resume = () => {
         <template v-slot:label>rule</template>
       </Input>
 
-      <Button @click="start">start</Button>
-      <Button v-if="paused" @click="resume">resume</Button>
+      <Button v-if="!playing" @click="start">start</Button>
+      <Button v-else @click="start">restart</Button>
+      <Button v-if="!playing" @click="resume">resume</Button>
       <Button v-else @click="pause">pause</Button>
     </InputLayout>
 
     <canvas id="canvas" 
             height="600" 
-            width="1000"></canvas>
+            width="1000"
+            @click="click"></canvas>
   </BaseLayout>
 </template>
 

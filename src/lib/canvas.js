@@ -1,4 +1,4 @@
-import { ref, unref } from "vue";
+import { reactive, ref, unref } from "vue";
 
 export default function useCanvas (name) {
   const canvas = ref(null);
@@ -7,11 +7,20 @@ export default function useCanvas (name) {
   const WIDTH = ref(0);
   const DIAMETER = ref(10);
   const mouseX = ref(0);
-  const mouseY = ref(0); 
+  const mouseY = ref(0);
+  const grid = reactive({
+    x: 0,
+    y: 0
+  });
 
-  const mousemove = (ev) => {    
+  const mousemove = (ev) => {
+    // current x/y within the canvas
     mouseX.value = ev.clientX - canvas.value.offsetLeft;
     mouseY.value = ev.clientY - canvas.value.offsetTop;
+
+    // current grid position
+    grid.x = Math.floor(mouseX.value / DIAMETER.value);
+    grid.y = Math.floor(mouseY.value / DIAMETER.value);
   }
 
   const clearCanvas = () => ctx.value.clearRect(
@@ -51,6 +60,9 @@ export default function useCanvas (name) {
     HEIGHT,
     WIDTH,
     DIAMETER,
+    mouseX,
+    mouseY,
+    grid,
     clearCanvas,
     drawPoint
   }
