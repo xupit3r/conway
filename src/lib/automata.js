@@ -1,4 +1,4 @@
-import { bound, copyState, color } from "@/lib/utils";
+import { copyState, color } from "@/lib/utils";
 
 // global state of the canvas
 const DEAD = color(100, 100, 100);
@@ -48,7 +48,7 @@ const countLive = (state, i, j) => {
   return live;
 }
 
-export const conway = (draw, generation, state, rules) => {
+export const conway = (generation, state, rules) => {
   const nextGen = [];
   
   for (let i = 0; i < state.length; i++) {
@@ -59,7 +59,6 @@ export const conway = (draw, generation, state, rules) => {
 
       const live = countLive(state, i, j);
       nextGen[i][j] = rules(state[i][j], live);
-      draw(i, j, getFillStyle(nextGen[i][j], live))
     }
   }
 

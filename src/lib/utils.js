@@ -16,7 +16,7 @@ export const initState = (height, width, diameter = 10) => {
         state[i] = [];
       }
 
-      state[i][j] = Math.random() > .5 ? 1 : 0;
+      state[i][j] = 0;
     }
   }
 
@@ -45,4 +45,15 @@ export const drawAutomata = (automata, state, generation, timeBetween, canvas, r
     canvas.clearCanvas();
     automata(canvas.drawPoint, generation.value, state, rules);
   }, timeBetween);
+}
+
+export const drawState = (canvas, state, color) => {
+  canvas.clearCanvas();
+  for (let i = 0; i < state.length; i++) {
+    for (let j = 0; j < state[0].length; j++) {
+      if (state[i][j]) {
+        canvas.drawPoint(i, j, color);
+      }
+    }
+  } 
 }

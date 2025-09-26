@@ -50,7 +50,6 @@ export default function useCanvas (name) {
     ctx.value = canvas.value.getContext("2d");
     HEIGHT.value = canvas.value.height;
     WIDTH.value = canvas.value.width;
-
     canvas.value.addEventListener("mousemove", mousemove);
   })
 
