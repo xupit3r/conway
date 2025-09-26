@@ -12,17 +12,14 @@ import BaseLayout from "@/components/BaseLayout.vue";
 import InputLayout from "@/components/InputLayout.vue";
 import Button from "@/components/Button.vue";
 
+const canvas = useCanvas("canvas");
 const { stored, put } = useInputStore();
 
 const generation = ref(0);
 const interval = ref(null);
 const paused = ref(false);
-const mouseX = ref(0);
-const mouseY = ref(0);
 
-let startState = [];
 let state = [];
-let canvas = null;
 
 const automata = [{
   name: "Conway's Game of Life",
@@ -61,8 +58,11 @@ const draw = (state) => {
 
 const start = () => {
   clearInterval(interval.value);
-  canvas = useCanvas("canvas");
-  state = initState(canvas.HEIGHT, canvas.WIDTH);
+  state = initState(
+    canvas.HEIGHT.value,
+    canvas.WIDTH.value,
+    canvas.DIAMETER.value
+  );
   generation.value = 0;
   draw(state);
 }
@@ -76,72 +76,6 @@ const resume = () => {
   paused.value = false;
   draw(state);
 }
-
-const mousemove = (ev) => {
-  const { ctx, canvas, clearCanvas } = useCanvas("canvas");
-
-  clearCanvas();
-  
-  mouseX.value = ev.clientX - canvas.offsetLeft;
-  mouseY.value = ev.clientY - canvas.offsetTop;
-
-  ctx.beginPath();
-  ctx.fillStyle = "#ff00ff";
-  ctx.arc(
-    mouseX.value, 
-    mouseY.value, 
-    5, 
-    0,
-    2 * Math.PI
-  );
-  ctx.fill();
-
-  for (let i = 0; i < startState.length; i++) {
-    for (let j = 0; j < startState[0].length; j++) {
-      if (startState[i] && startState[i][j]) {
-        ctx.beginPath();
-        ctx.fillStyle = "#ff00ff";
-        ctx.arc(
-          i, 
-          j, 
-          5, 
-          0,
-          2 * Math.PI
-        );
-        ctx.fill();
-      }
-    }
-  }
-}
-
-const click = (ev) => {
-  const { canvas } = useCanvas("canvas");
-
-  let x = ev.clientX - canvas.offsetLeft;
-  let y = ev.clientY - canvas.offsetTop;
-
-  if (!startState[x]) {
-    startState[x] = [];
-  }
-
-  startState[x][y] = 1;
-}
-
-window.addEventListener("load", () => {
-  const { HEIGHT, WIDTH } = useCanvas("canvas");
-
-  startState = [];
-  for (let i = 0; i < WIDTH; i++) {
-    for (let j = 0; j < HEIGHT; j++) {
-      if (!startState[i]) {
-        startState[i] = [];
-      }
-
-      startState[i][j] = 0;
-    }
-  }
-
-})
 
 </script>
 
@@ -170,9 +104,7 @@ window.addEventListener("load", () => {
 
     <canvas id="canvas" 
             height="600" 
-            width="1000" 
-            @mousemove="mousemove"
-            @click="click"></canvas>
+            width="1000"></canvas>
   </BaseLayout>
 </template>
 

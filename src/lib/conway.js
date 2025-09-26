@@ -47,7 +47,7 @@ const countLive = (state, i, j) => {
   return live;
 }
 
-export const conway = (ctx, generation, state, rules) => {
+export const conway = (draw, generation, state, rules) => {
   const nextGen = [];
   
   for (let i = 0; i < state.length; i++) {
@@ -59,16 +59,7 @@ export const conway = (ctx, generation, state, rules) => {
       const live = countLive(state, i, j);
       nextGen[i][j] = rules(state[i][j], live);
 
-      ctx.beginPath();
-      ctx.fillStyle = getFillStyle(nextGen[i][j], live);
-      ctx.arc(
-        i * DIAMETER + DIAMETER / 2, 
-        j * DIAMETER + DIAMETER / 2, 
-        DIAMETER / 2, 
-        0,
-        2 * Math.PI
-      );
-      ctx.fill();
+      draw(i, j, getFillStyle(nextGen[i][j], live))
     }
   }
 

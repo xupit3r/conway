@@ -7,11 +7,11 @@ export const bound =  (step, lower, upper) => {
   );
 }
 
-export const initState = (height, width) => {
+export const initState = (height, width, diameter = 10) => {
   let state = [];
 
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < height; j++) {
+  for (let i = 0; i < width / diameter; i++) {
+    for (let j = 0; j < height / diameter; j++) {
       if (!state[i]) {
         state[i] = [];
       }
@@ -43,6 +43,6 @@ export const drawAutomata = (automata, state, generation, timeBetween, canvas, r
   return setInterval(() => {
     generation.value++;
     canvas.clearCanvas();
-    automata(canvas.ctx, generation.value, state, rules);
+    automata(canvas.drawPoint, generation.value, state, rules);
   }, timeBetween);
 }
