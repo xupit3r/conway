@@ -48,7 +48,7 @@ const countLive = (state, i, j) => {
   return live;
 }
 
-export const conway = (generation, state, rules) => {
+export const conway = (state, rules) => {
   const nextGen = [];
   
   for (let i = 0; i < state.length; i++) {
@@ -57,8 +57,10 @@ export const conway = (generation, state, rules) => {
         nextGen[i] = [];
       }
 
-      const live = countLive(state, i, j);
-      nextGen[i][j] = rules(state[i][j], live);
+      nextGen[i][j] = rules(
+        state[i][j],
+        countLive(state, i, j)
+      );
     }
   }
 

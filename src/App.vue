@@ -49,7 +49,6 @@ const startAutomata = () => {
   interval.value = setInterval(() => {
     generation.value++;
     automata[stored.inputs.automata].func(
-      generation,
       state,
       rules[stored.inputs.rule].func
     );
@@ -68,7 +67,7 @@ const pause = () => {
   clearInterval(interval.value);
 }
 
-const click = () => {
+const setPoint = () => {
   state[canvas.grid.x][canvas.grid.y] = 1
 }
 
@@ -120,7 +119,7 @@ window.addEventListener("load", () => {
     <canvas id="canvas" 
             :height="stored.inputs.height" 
             :width="stored.inputs.width"
-            @click="click"></canvas>
+            @click="setPoint"></canvas>
   </BaseLayout>
 </template>
 
