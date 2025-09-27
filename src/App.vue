@@ -45,7 +45,10 @@ let state = initState(
   stored.inputs.width
 );
 
-const startAutomata = () => {
+const start = () => {
+  clearInterval(interval.value);
+  playing.value = true;
+  generation.value = 0;
   interval.value = setInterval(() => {
     generation.value++;
     automata[stored.inputs.automata].func(
@@ -53,13 +56,6 @@ const startAutomata = () => {
       rules[stored.inputs.rule].func
     );
   }, stored.inputs.timeBetween)
-}
-
-const start = () => {
-  clearInterval(interval.value);
-  playing.value = true;
-  generation.value = 0;
-  startAutomata();
 }
 
 const pause = () => {
