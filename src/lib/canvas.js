@@ -30,6 +30,23 @@ export default function useCanvas (name) {
     canvas.value.height
   );
 
+  const drawLayers = (layers, hover) => {
+    clearCanvas();
+    layers.forEach(({ state, color }) => {
+      for (let i = 0; i < state.length; i++) {
+        for (let j = 0; j < state[0].length; j++) {
+          if (state[i][j]) {
+            drawPoint(i, j, color);
+          }
+
+          if (hover[`${i}:${j}`]) {
+            drawPoint(i, j, "#fff");
+          }
+        }
+      }
+    });
+  }
+
   const drawPoint = (x, y, fillStyle) => {
     const d = unref(DIAMETER);
 
@@ -63,6 +80,6 @@ export default function useCanvas (name) {
     mouseY,
     grid,
     clearCanvas,
-    drawPoint
+    drawLayers
   }
 }

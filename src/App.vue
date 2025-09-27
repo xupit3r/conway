@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { conway } from "@/lib/automata";
-import { drawState, initState } from "@/lib/utils";
+import { initState } from "@/lib/utils";
 import { base, noOver } from "@/lib/rules";
 import { useInputStore } from "@/stores/input.js";
 import useCanvas from "@/lib/canvas.js";
@@ -36,7 +36,7 @@ const rules = [{
 
 put('automata', 0);
 put('rule', 0);
-put('timeBetween', 100);
+put('timeBetween', 60);
 put('height', 400);
 put('width', 800);
 
@@ -44,6 +44,8 @@ let state = initState(
   stored.inputs.height,
   stored.inputs.width
 );
+
+let hoverState = {};
 
 const start = () => {
   clearInterval(interval.value);
@@ -78,9 +80,17 @@ const clear = () => {
   );
 }
 
+watch(canvas.grid, ({ x, y }) => {
+  hoverState = {};
+  hoverState[`${x}:${y}`] = 1;
+});
+
 window.addEventListener("load", () => {
   setInterval(() => {
-    drawState(canvas, state, "#ff00ff");
+    canvas.drawLayers([{
+      state: state,
+      color: "#ff00ff"
+    }], hoverState);
   }, 100);
 });
 

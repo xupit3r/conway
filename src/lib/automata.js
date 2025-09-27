@@ -1,10 +1,4 @@
-import { copyState, color } from "@/lib/utils";
-
-// global state of the canvas
-const DEAD = color(100, 100, 100);
-const LIVE = color(50, 255,50);
-const LIMBO = color(50, 200, 50);
-const ANGEL = color(50, 100, 50);
+import { copyState } from "@/lib/utils";
 
 // moore neightborhood directions
 const DIRECTIONS = [
@@ -17,18 +11,6 @@ const DIRECTIONS = [
   [1, -1], 
   [-1, 1]
 ];
-
-const getFillStyle = (me, live) => {
-  if (me && live <= 3) {
-    return LIVE;
-  } else if (live > 3 && live <= 5) {
-    return LIMBO;
-  } else if (live > 5) {
-    return ANGEL;
-  }  else {
-    return DEAD;
-  }
-}
 
 const countLive = (state, i, j) => {
   let live = 0;
