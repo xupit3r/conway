@@ -82,6 +82,10 @@ const clear = () => {
 
 watch(canvas.grid, coords => {
   hoverState = coords;
+
+  if (canvas.mousedown.value) {
+    state[coords.x][coords.y] = 1;
+  }
 });
 
 window.addEventListener("load", () => {

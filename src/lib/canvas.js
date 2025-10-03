@@ -12,8 +12,9 @@ export default function useCanvas (name) {
     x: 0,
     y: 0
   });
+  const mousedown = ref(false);
 
-  const mousemove = (ev) => {
+  const onMousemove = (ev) => {
     // current x/y within the canvas
     mouseX.value = ev.clientX - canvas.value.offsetLeft;
     mouseY.value = ev.clientY - canvas.value.offsetTop;
@@ -21,6 +22,14 @@ export default function useCanvas (name) {
     // current grid position
     grid.x = Math.floor(mouseX.value / DIAMETER.value);
     grid.y = Math.floor(mouseY.value / DIAMETER.value);
+  }
+
+  const onMousedown = (ev) => {
+    mousedown.value = true;
+  }
+
+  const onMouseup = (ev) => {
+    mousedown.value = false;
   }
 
   const clearCanvas = () => ctx.value.clearRect(
@@ -67,7 +76,9 @@ export default function useCanvas (name) {
     ctx.value = canvas.value.getContext("2d");
     HEIGHT.value = canvas.value.height;
     WIDTH.value = canvas.value.width;
-    canvas.value.addEventListener("mousemove", mousemove);
+    canvas.value.addEventListener("mousemove", onMousemove);
+    canvas.value.addEventListener("mousedown", onMousedown);
+    canvas.value.addEventListener("mouseup", onMouseup);
   })
 
   return {
@@ -79,6 +90,7 @@ export default function useCanvas (name) {
     mouseX,
     mouseY,
     grid,
+    mousedown,
     clearCanvas,
     drawLayers
   }
