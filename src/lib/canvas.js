@@ -36,10 +36,10 @@ export default function useCanvas (name) {
       for (let i = 0; i < state.length; i++) {
         for (let j = 0; j < state[0].length; j++) {
           if (state[i][j]) {
-            drawPoint(i, j, color);
+            drawPoint(i, j, color[state[i][j]]);
           }
 
-          if (hover[`${i}:${j}`]) {
+          if (hover.x === i && hover.y === j) {
             drawPoint(i, j, "#fff");
           }
         }

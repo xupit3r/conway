@@ -80,18 +80,20 @@ const clear = () => {
   );
 }
 
-watch(canvas.grid, ({ x, y }) => {
-  hoverState = {};
-  hoverState[`${x}:${y}`] = 1;
+watch(canvas.grid, coords => {
+  hoverState = coords;
 });
 
 window.addEventListener("load", () => {
   setInterval(() => {
     canvas.drawLayers([{
       state: state,
-      color: "#ff00ff"
+      color: {
+        1: "#ff00ff",
+        2: "#ffffff"
+      }
     }], hoverState);
-  }, 100);
+  }, 30);
 });
 
 </script>
