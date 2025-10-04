@@ -24,13 +24,9 @@ export default function useCanvas (name) {
     grid.y = Math.floor(mouseY.value / DIAMETER.value);
   }
 
-  const onMousedown = (ev) => {
-    mousedown.value = true;
-  }
-
-  const onMouseup = (ev) => {
-    mousedown.value = false;
-  }
+  // track the mouse button being up/down
+  const onMousedown = (ev) => mousedown.value = true;
+  const onMouseup = (ev) => mousedown.value = false;
 
   const clearCanvas = () => ctx.value.clearRect(
     0, 
@@ -39,6 +35,25 @@ export default function useCanvas (name) {
     canvas.value.height
   );
 
+  /**
+   * draws layers onto the canvas
+   * 
+   * @param {Array} layers an array of layers made up of 
+   * objects of the form:
+   *  {
+   *    state: [][],
+   *    color: {
+   *      <number>: <CSS color>
+   *    }
+   *  } 
+   * @param {Object} hover an object of the form:
+   *   {
+   *     x: <number>,
+   *     y: <number>
+   *   } 
+   * 
+   *  that indicates the hover position of the mouse
+   */
   const drawLayers = (layers, hover) => {
     clearCanvas();
     layers.forEach(({ state, color }) => {
@@ -56,6 +71,13 @@ export default function useCanvas (name) {
     });
   }
 
+  /**
+   * draws a point on the canvas
+   * 
+   * @param {Number} x x coordinate of the point 
+   * @param {*} y y coordinate of the point
+   * @param {*} fillStyle the fillstyle for the point
+   */
   const drawPoint = (x, y, fillStyle) => {
     const d = unref(DIAMETER);
 
@@ -76,6 +98,8 @@ export default function useCanvas (name) {
     ctx.value = canvas.value.getContext("2d");
     HEIGHT.value = canvas.value.height;
     WIDTH.value = canvas.value.width;
+
+    // tracking for mouse events
     canvas.value.addEventListener("mousemove", onMousemove);
     canvas.value.addEventListener("mousedown", onMousedown);
     canvas.value.addEventListener("mouseup", onMouseup);
