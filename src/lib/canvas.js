@@ -5,7 +5,7 @@ export default function useCanvas (name) {
   const ctx = ref(null);
   const HEIGHT = ref(0);
   const WIDTH = ref(0);
-  const DIAMETER = ref(10);
+  const DIAMETER = ref(4);
   const mouseX = ref(0);
   const mouseY = ref(0);
   const grid = reactive({
@@ -62,9 +62,9 @@ export default function useCanvas (name) {
     ctx.value.beginPath();
     ctx.value.fillStyle = fillStyle;
     ctx.value.arc(
-      x * d + d / 2, 
-      y * d + d / 2, 
-      d / 2, 
+      x * d + Math.floor(d / 2), 
+      y * d + Math.floor(d / 2), 
+      Math.floor(d / 2), 
       0,
       2 * Math.PI
     );

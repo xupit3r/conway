@@ -37,12 +37,14 @@ const rules = [{
 put('automata', 0);
 put('rule', 0);
 put('timeBetween', 60);
-put('height', 400);
+put('height', 600);
 put('width', 800);
+put('diameter', canvas.DIAMETER);
 
 let state = initState(
   stored.inputs.height,
-  stored.inputs.width
+  stored.inputs.width,
+  stored.inputs.diameter
 );
 
 let hoverState = {};
@@ -65,9 +67,7 @@ const pause = () => {
   clearInterval(interval.value);
 }
 
-const setPoint = () => {
-  state[canvas.grid.x][canvas.grid.y] = 1
-}
+
 
 const clear = () => {
   canvas.clearCanvas();
@@ -104,39 +104,40 @@ window.addEventListener("load", () => {
 
 <template>
   <BaseLayout>
-    <template v-slot:header>
-      automata fun!
-    </template>
-
+    <Counter :count="generation">generation</Counter>
     <InputLayout :horizontal="true">
-      <Counter :count="generation">generation</Counter>
+      <Input type="text" name="diameter">
+        <template v-slot:label>diameter</template>
+      </Input>
       <Input type="text" name="height">
         <template v-slot:label>height</template>
       </Input>
       <Input type="text" name="width">
         <template v-slot:label>width</template>
       </Input>
+    </InputLayout>
+    <InputLayout :horizontal="true">
       <Input type="select" name="automata" :options="automata">
         <template v-slot:label>automata</template>
       </Input>
       <Input type="select" name="rule" :options="rules">
         <template v-slot:label>rule</template>
       </Input>
-
+    </InputLayout>
+    <InputLayout :horizontal="true">
       <Button v-if="!playing" @click="start">start</Button>
       <Button v-else @click="pause">pause</Button>
       <Button @click="clear">clear</Button>
     </InputLayout>
-
     <canvas id="canvas" 
             :height="stored.inputs.height" 
-            :width="stored.inputs.width"
-            @click="setPoint"></canvas>
+            :width="stored.inputs.width"></canvas>
   </BaseLayout>
 </template>
 
 <style scoped>
 #canvas {
+  cursor: none;
   background-color: rgb(100, 100, 100);
   position: relative !important;
   border: lightgrey 1px solid;
